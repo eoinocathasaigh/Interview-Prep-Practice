@@ -37,3 +37,35 @@ myArray.forEach(element => {
 //Using map to create a new array based on the original array
 let newArray = myArray.map(element => element * 2);
 console.log(newArray); //Output: [2, 20, 6, 8, 10]
+
+//Using filter to create a new array with elements that meet a certain condition
+let filteredArray = myArray.filter(element => element > 3);
+console.log(filteredArray); //Output: [10, 4, 5]
+
+//Using reduce to accumulate values in an array
+let sum = myArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+console.log(sum); //Output: 23
+
+//INTERVIEW QUESTION: How would you reverse an array in place without using any built-in methods?
+function reverseArray(arr) {
+    let left = 0;
+    //Making sure the last digit we track isnt out of bounds
+    let right = arr.length - 1;
+
+    while (left < right) {
+        //Swap elements at left and right indices
+        let temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
+
+        //Move towards the middle
+        left++;
+        right--;
+    }
+    return arr;
+}
+
+//The main algorithm being highlighted here is that of moving from two points in the array and swapping elements until we meet in the middle. 
+//This allows us to reverse the array in place with a time complexity of O(n) and a space complexity of O(1).
+
+console.log(reverseArray(myArray)); //Output: [5, 4, 3, 10, 1]
