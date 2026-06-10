@@ -125,3 +125,108 @@ function rotateArray(arr, k) {
 console.log(rotateArray([1, 2, 3, 4, 5], 2)); //Output: [4, 5, 1, 2, 3]
 //This method creates a new array and places each element in its new position based on the rotation. 
 //The time complexity is O(n) and the space complexity is O(n) due to the additional array used for rotation.
+
+//Question 5: How would you check if two arrays are equal without using any built-in methods?
+function areArraysEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+        return false; // Arrays of different lengths cannot be equal
+    }
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false; // If any elements differ, arrays are not equal
+        }
+    }
+    return true; // All elements are equal
+}
+
+console.log(areArraysEqual([1, 2, 3], [1, 2, 3])); //Output: true
+console.log(areArraysEqual([1, 2, 3], [3, 2, 1])); //Output: false
+//This method checks for equality by first comparing the lengths of the arrays and then comparing each corresponding element. 
+//The time complexity is O(n) where n is the length of the arrays.
+
+//Binary Search Implementation
+//What is binary search?
+//Binary search is an efficient algorithm for finding the position of a target value within a sorted array.
+//It works by repeatedly dividing the search interval in half. If the value of the search key is less than the item in the middle of the interval, the search continues in the lower half, or if the value is greater, it continues in the upper half. 
+//This process continues until the value is found or the interval is empty.
+//This implementation of binary search assumes that the input array is sorted. The time complexity is O(log n) due to the halving of the search space with each iteration, and the space complexity is O(1) for the iterative version.
+function binarySearch(arr, target) {
+    //Setting the index of the two halfes of the array
+    //Left always starts at beginning of the array - 0
+    let left = 0;
+    //Right starts at the end - length -1 to avoid out of bounds error
+    let right = arr.length - 1;
+
+    //While the left index is less than or equal to the right index, we continue searching
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2); // Calculate the middle index
+
+        if (arr[mid] === target) {
+            return mid; // Target found at index mid
+        } else if (arr[mid] < target) {
+            left = mid + 1; // Search in the right half
+        } else {
+            right = mid - 1; // Search in the left half
+        }
+    }
+    return -1; // Target not found in the array
+}
+
+console.log(binarySearch([1, 2, 3, 4, 5], 3)); //Output: 2
+console.log(binarySearch([1, 2, 3, 4, 5], 6)); //Output: -1
+
+//Question 6: How would you implement a function to find the intersection of two arrays without using any built-in methods?
+function intersection(arr1, arr2) {
+    let result = [];
+    for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr2.length; j++) {
+            if (arr1[i] === arr2[j]) {
+                // Check if the element is already in the result array to avoid duplicates
+                let isDuplicate = false;
+                for (let k = 0; k < result.length; k++) {
+                    if (result[k] === arr1[i]) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                if (!isDuplicate) {
+                    result.push(arr1[i]); // Add to result if it's not a duplicate
+                }
+            }
+        }
+    }
+    return result;
+}
+
+console.log(intersection([1, 2, 3, 4], [3, 4, 5, 6])); //Output: [3, 4]
+//This method checks for common elements between the two arrays and adds them to the result array while ensuring no duplicates are added. 
+//The time complexity is O(n*m) where n and m are the lengths of the two input arrays.
+
+//Question 7: Product of Array Except Self
+//Given an array nums of n integers where n > 1, return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
+//The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+function productExceptSelf(nums) {
+    let length = nums.length;
+    let output = new Array(length).fill(1); // Initialize output array with 1s
+
+    // Calculate the product of all elements to the left of each index
+    let leftProduct = 1;
+    for (let i = 0; i < length; i++) {
+        output[i] = leftProduct; // Set output[i] to the product of elements to the left
+        leftProduct *= nums[i]; // Update leftProduct for the next iteration
+    }
+
+    // Calculate the product of all elements to the right of each index and multiply with the left product
+    let rightProduct = 1;
+    for (let i = length - 1; i >= 0; i--) {
+        output[i] *= rightProduct; // Multiply with the product of elements to the right
+        rightProduct *= nums[i]; // Update rightProduct for the next iteration
+    }
+
+    return output;
+}
+
+console.log(productExceptSelf([1, 2, 3, 4])); //Output: [24, 12, 8, 6]
+//This method calculates the product of all elements to the left and right of each index and combines them to get the final output. 
+//The time complexity is O(n) and the space complexity is O(1) if we ignore the output array.
