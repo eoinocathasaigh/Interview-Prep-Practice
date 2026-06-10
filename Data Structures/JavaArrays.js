@@ -69,3 +69,59 @@ function reverseArray(arr) {
 //This allows us to reverse the array in place with a time complexity of O(n) and a space complexity of O(1).
 
 console.log(reverseArray(myArray)); //Output: [5, 4, 3, 10, 1]
+
+//Qestion 2: How would you find the maximum value in an array without using any built-in methods?
+function findMax(arr) {
+    if (arr.length === 0) {
+        return null; // Return null for an empty array
+    }
+
+    let max = arr[0]; // Initialize max to the first element
+
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] > max) {
+            max = arr[i]; // Update max if current element is greater
+        }
+    }
+    return max;
+}
+
+console.log(findMax(myArray)); //Output: 10
+
+//Question 3: How would you remove duplicates from an array without using any built-in methods?
+function removeDuplicates(arr) {
+    let uniqueArray = [];
+    for (let i = 0; i < arr.length; i++) {
+        let isDuplicate = false;
+        for (let j = 0; j < uniqueArray.length; j++) {
+            if (arr[i] === uniqueArray[j]) {
+                isDuplicate = true;
+                break; // Break inner loop if duplicate is found
+            }
+        }
+        if (!isDuplicate) {
+            uniqueArray.push(arr[i]); // Add to uniqueArray if not a duplicate
+        }
+    }
+    return uniqueArray;
+}
+
+console.log(removeDuplicates([1, 2, 3, 2, 4, 1, 5])); //Output: [1, 2, 3, 4, 5]
+//Note - this method can also be achieved using a set or HashMap
+//This approach simply demonstrates how it may be done using only arrays and loops - leading to an O(n^2) time complexity due to the nested loops.
+
+//Question 4: How would you rotate an array to the right by k steps without using any built-in methods?
+function rotateArray(arr, k) {
+    k = k % arr.length; // Handle cases where k is greater than array length
+    let rotatedArray = new Array(arr.length);
+
+    for (let i = 0; i < arr.length; i++) {
+        let newIndex = (i + k) % arr.length; // Calculate new index for each element
+        rotatedArray[newIndex] = arr[i]; // Place element in its new position
+    }
+    return rotatedArray;
+}
+
+console.log(rotateArray([1, 2, 3, 4, 5], 2)); //Output: [4, 5, 1, 2, 3]
+//This method creates a new array and places each element in its new position based on the rotation. 
+//The time complexity is O(n) and the space complexity is O(n) due to the additional array used for rotation.
