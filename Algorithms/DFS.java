@@ -1,6 +1,7 @@
 //Depth First Search (DFS) is a crucial algorithm in software development and graph theory.
 //It is a search in which we start at the root node and explore as far as possible along each branch before backtracking
 //We start by traversing as far left as possible before backtracking and exploring the right side of the tree/graph
+//Hence the name since we go as deep as possible before backtracking and exploring another path
 //Using a stack data structure we keep track of the nodes we have visited and the nodes we still need to visit - remember, a stack is a LIFO (last in first out) data structure, so the last node we add will be the first node we remove
 
 //DFS can be applied to areas such as:
