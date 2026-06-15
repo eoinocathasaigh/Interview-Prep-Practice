@@ -1,0 +1,11 @@
+# Question Study Guide
+Throughout your interviews, you may be asked a variety of questions which test your knowledge, problem-solving skills and ability to think critically. These could range from technical questions asking how you tackled specific problems in your code or behavioral questions that examine how you work in a team/handle conflict. 
+
+This section of the repository is designed to cover important topics/questions as well as patterns to follow when answering them. It is important to note that this is not an exhaustive list of questions, but rather a guide to help you prepare for your interviews. Furthermore, it is important to remember that you can't simply use the answers provided here as a script to memorize, you will perform even better in interviews if you speak honestly and from your own experience.
+
+## The STAR Method
+When answering behavioral questions, it is important to use the STAR method. This method helps you structure your answers in a clear and concise way, allowing you to effectively communicate your experiences. STAR stands for:
+- **Situation**: Describe the context within which you performed a task or faced a challenge at work. For example, "I was working on a project where we had to deliver a new feature under a tight deadline."
+- **Task**: Explain the actual task or challenge that was involved. For example, "My task was to implement the feature while ensuring that it met all the requirements and was delivered on time."
+- **Action**: Describe the specific actions you took to address the task or challenge. For example, "I collaborated with my team to break down the feature into smaller tasks, prioritized them, and worked on the most critical parts first. I also communicated regularly with stakeholders to ensure that we were aligned on the requirements and progress."
+- **Result**: Share the outcome of your actions. For example, "As a result of our efforts, we were able to deliver the feature on time and it received positive feedback from both the stakeholders and end-users. This experience taught me the importance of effective communication and collaboration in achieving project goals."
