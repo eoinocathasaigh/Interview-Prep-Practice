@@ -24,12 +24,15 @@ console.log(myArray); //Output: [1, 10, 3, 4, 5]
 //Finding the length of an array
 console.log(myArray.length); //Output: 5
 
-//Iterating through an array
+//Iterating through an array - Always O(n) time complexity
+//If we're looking for something in an array that we dont know the position of we may have to iterate through it
+//This is fine for some operations as the worst possible time it could take is the entire length of the array
+//However its sort of a slippery slope as if we need to perform multiple operations (i.e. a comparrison of two arrays) we may end up with a time complexity of O(n^2) which is not ideal
 for (let i = 0; i < myArray.length; i++) {
     console.log(myArray[i]);
 }
 
-//Using forEach to iterate through an array
+//Using forEach to iterate through an array - same as above but more concise and readable
 myArray.forEach(element => {
     console.log(element);
 });
@@ -47,6 +50,7 @@ let sum = myArray.reduce((accumulator, currentValue) => accumulator + currentVal
 console.log(sum); //Output: 23
 
 //INTERVIEW QUESTION: How would you reverse an array in place without using any built-in methods?
+//TWO POINTERS APPROACH - Common approach for array/linear data structure manipulation
 function reverseArray(arr) {
     let left = 0;
     //Making sure the last digit we track isnt out of bounds
@@ -89,6 +93,9 @@ function findMax(arr) {
 console.log(findMax(myArray)); //Output: 10
 
 //Question 3: How would you remove duplicates from an array without using any built-in methods?
+//Method 1 - Using a new array to store unique values
+//SPACE COMPLEXITY - O(n) - We are creating a new array to store unique values
+//TIME COMPLEXITY - O(n^2) - We are using a nested loop to check for duplicates
 function removeDuplicates(arr) {
     let uniqueArray = [];
     for (let i = 0; i < arr.length; i++) {
@@ -109,6 +116,25 @@ function removeDuplicates(arr) {
 console.log(removeDuplicates([1, 2, 3, 2, 4, 1, 5])); //Output: [1, 2, 3, 4, 5]
 //Note - this method can also be achieved using a set or HashMap
 //This approach simply demonstrates how it may be done using only arrays and loops - leading to an O(n^2) time complexity due to the nested loops.
+
+//Method 2 - Using a HashMap to store unique values
+//This is a more desireable approach and is better programming practice as it has a time complexity of O(n) and a space complexity of O(n) due to the additional data structure used for storing unique values
+//SPACE COMPLEXITY - O(n) - We are creating a new object to store unique values
+//TIME COMPLEXITY - O(n) - We are using a single loop to check for duplicates
+function removeDuplicatesUsingHashMap(arr) {
+    let uniqueMap = {};
+    let uniqueArray = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (!uniqueMap[arr[i]]) {
+            uniqueMap[arr[i]] = true; // Mark the element as seen
+            uniqueArray.push(arr[i]); // Add to uniqueArray if not a duplicate
+        }
+    }
+    return uniqueArray;
+}
+
+console.log(removeDuplicatesUsingHashMap([1, 2, 3, 2, 4, 1, 5])); //Output: [1, 2, 3, 4, 5]
 
 //Question 4: How would you rotate an array to the right by k steps without using any built-in methods?
 function rotateArray(arr, k) {
