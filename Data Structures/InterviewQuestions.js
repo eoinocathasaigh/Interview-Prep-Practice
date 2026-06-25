@@ -92,3 +92,205 @@ function maxArea(arr) {
 const height = [1, 8, 6, 2, 5, 4, 8, 3, 7];
 console.log(maxArea(height)); // Output: 49 (between lines at index 1 and index 8)
 
+//4. Fast and Slow Pointers pattern - "Linked List Cycle"
+//This problem prompts you to determine if a linked list has a cycle in it
+//A brute force approach would involve using a hash set to store the nodes we've seen so far, resulting in O(n) time complexity and O(n) space complexity
+//However, we can optimize this using the fast and slow pointers technique, which allows us to determine if there is a cycle in O(n) time complexity and O(1) space complexity
+
+//The main idea here is to use two pointer variables, one moving at twice the speed of the other
+//If there is a cycle in the linked list, the fast pointer will eventually meet the slow pointer
+//If there is no cycle, the fast pointer will reach the end of the list
+
+function hasCycle(head) {
+    let slow = head;
+    let fast = head;
+
+    while (fast !== null && fast.next !== null) {
+        slow = slow.next; // move slow pointer by 1
+        fast = fast.next.next; // move fast pointer by 2
+
+        if (slow === fast) {
+            return true; // cycle detected
+        }
+    }
+
+    return false; // no cycle
+}
+
+//Example usage:
+//Assuming we have a linked list implementation and a way to create a cycle
+//const head = new ListNode(1);
+//head.next = new ListNode(2);
+//head.next.next = new ListNode(3);
+//head.next.next.next = head; // create a cycle
+//console.log(hasCycle(head)); // Output: true
+
+//5. DFS on Grid - "Number of Islands"
+//This is a problem in which we are given a 2D grid of '1's (land) and '0's (water) and we want to count the number of islands
+//An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically
+//We can solve this problem using Depth First Search (DFS) to explore each island and mark it as visited
+
+// Check if the cell (r, c) is valid for BFS traversal
+// It must lie within grid bounds, contain land ('L'), and not be visited yet
+function isSafe(grid, r, c, visited) {
+    const n = grid.length;
+    const m = grid[0].length;
+    return (r >= 0 && r < n && c >= 0 && c < m && grid[r][c] === 'L' && !visited[r][c]);
+}
+
+// Performs DFS to mark all connected land cells
+function dfs(grid, r, c, visited) {
+    // Mark current cell as visited
+    visited[r][c] = true;
+
+    // All 8 possible directions (vertical, horizontal, diagonal)
+    const dr = [-1, -1, -1, 0, 0, 1, 1, 1];
+    const dc = [-1, 0, 1, -1, 1, -1, 0, 1];
+
+    // Explore all connected neighbours
+    for (let k = 0; k < 8; k++) {
+        const nr = r + dr[k];
+        const nc = c + dc[k];
+
+        if (isSafe(grid, nr, nc, visited))
+            dfs(grid, nr, nc, visited);
+    }
+}
+
+// finding number of distinct islands in the grid
+function countIslands(grid) {
+    const n = grid.length;
+    const m = grid[0].length;
+
+    // Matrix to track visited cells
+    const visited = Array.from({ length: n }, () => Array(m).fill(false));
+
+    let islands = 0;
+
+    // Traverse every cell in the grid
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            // Start a new DFS when an unvisited land cell is found
+            if (grid[i][j] === 'L' && !visited[i][j]) {
+                dfs(grid, i, j, visited);
+                islands++;
+            }
+        }
+    }
+
+    return islands;
+}
+
+// Example usage:
+const grid = [
+    ['1', '1', '0', '0', '0'],
+    ['1', '1', '0', '0', '0'],
+    ['0', '0', '1', '0', '0'],
+    ['0', '0', '0', '1', '1']
+];
+console.log(countIslands(grid)); // Output: 3
+
+//6. BFS on Grid - "Number of Islands"
+//This is the same as the problem above, the difference is that we will use Breadth First Search (BFS) instead of Depth First Search (DFS) to explore each island and mark it as visited
+//The BFS approach uses a queue to explore all the neighbours of a cell before moving on to the next cell, while DFS explores as far as possible along each branch before backtracking
+//It also reuses the same isSafe function to check if a cell is valid for BFS traversal
+
+// Perform BFS to traverse all connected land cells (forming one island)
+function bfs(grid, visited, startR, startC) {
+    // Possible 8 directions (vertical, horizontal, and diagonal)
+    const dRow = [-1, -1, -1, 0, 0, 1, 1, 1];
+    const dCol = [-1, 0, 1, -1, 1, -1, 0, 1];
+
+    const q = [];
+    q.push([startR, startC]);
+    visited[startR][startC] = true;
+
+    // Explore all reachable land cells for this island
+    while (q.length > 0) {
+        const [r, c] = q.shift();
+
+        // Check all 8 neighbors of the current cell
+        for (let k = 0; k < 8; k++) {
+            const newR = r + dRow[k];
+            const newC = c + dCol[k];
+            if (isSafe(grid, newR, newC, visited)) {
+                visited[newR][newC] = true;
+                q.push([newR, newC]);
+            }
+        }
+    }
+}
+
+// Count the total number of islands in the grid
+function countIslandsBFS(grid) {
+    const n = grid.length;
+    const m = grid[0].length;
+    const visited = Array.from({ length: n }, () => Array(m).fill(false));
+    let islandCount = 0;
+
+    // Traverse every cell in the grid
+    for (let r = 0; r < n; r++) {
+        for (let c = 0; c < m; c++) {
+
+            // If an unvisited land cell is found, start BFS for that island
+            if (grid[r][c] === 'L' && !visited[r][c]) {
+                bfs(grid, visited, r, c);
+                islandCount++;
+            }
+        }
+    }
+
+    return islandCount;
+}
+
+// Example usage:
+const gridBFS = [
+    ['1', '1', '0', '0', '0'],
+    ['1', '1', '0', '0', '0'],
+    ['0', '0', '1', '0', '0'],
+    ['0', '0', '0', '1', '1']
+];
+console.log(countIslandsBFS(gridBFS)); // Output: 3
+
+//7. BFS on Graph - "Search in a Graph"
+//This problem prompts you to search for a target value in a graph represented as an adjacency list
+//We can use Breadth First Search (BFS) to traverse the graph and check if the target value exists
+//The BFS approach uses a queue to explore all the neighbours of a node before moving on to the next node
+
+function bfsGraph(adj){
+    const V = adj.length;
+    const visited = new Array(V).fill(false);
+    const res = [];
+
+    const q = new Denque();
+
+    let src = 0;
+    visited[src] = true;
+    q.push(src);
+
+    while (!q.isEmpty()) {
+        const curr = q.shift();
+        res.push(curr);
+
+        // visit all the unvisited
+        // neighbours of current node
+        for (const x of adj[curr]) {
+            if (!visited[x]) {
+                visited[x] = true;
+                q.push(x);
+            }
+        }
+    }
+
+    return res;
+}
+
+// Example usage:
+const adjList = [
+    [1, 2],    // Neighbors of vertex 0
+    [0, 3, 4], // Neighbors of vertex 1
+    [0],       // Neighbors of vertex 2
+    [1],       // Neighbors of vertex 3
+    [1]        // Neighbors of vertex 4
+];
+console.log(bfsGraph(adjList)); // Output: [0, 1, 2, 3, 4]
