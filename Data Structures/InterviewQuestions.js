@@ -294,3 +294,122 @@ const adjList = [
     [1]        // Neighbors of vertex 4
 ];
 console.log(bfsGraph(adjList)); // Output: [0, 1, 2, 3, 4]
+
+//8. Basic DP - "Robbing House"
+//DP - Dynamic Programming is a method for solving complex problems by breaking them down into simpler subproblems
+//This problem prompts you to find the maximum amount of money you can rob from a series of houses, where adjacent houses cannot be robbed on the same night
+//We can use dynamic programming to solve this problem by keeping track of the maximum amount that can be robbed up to each house
+//The instinct might be to use recursion, but this would lead to an exponential time complexity due to overlapping subproblems
+//Instead, we can use an iterative approach to build up the solution in O(n) time complexity and O(1) space complexity
+
+//EXAMPLE OF THE BAD RECURSIVE APPROACH
+// Calculate the maximum stolen value recursively
+function findMaxSumRec(arr, n) {
+	
+    // If no houses are left, return 0.
+    if (n <= 0)  return 0;
+  
+  	// If only 1 house is left, rob it. 
+    if (n === 1)  return arr[0];
+
+    // Two Choices: Rob the nth house and do not rob the nth house 
+    let pick = arr[n - 1] + findMaxSumRec(arr, n - 2);
+    let notPick = findMaxSumRec(arr, n - 1);
+
+    // Return the max of two choices
+    return Math.max(pick, notPick);
+}
+
+// Function to calculate the maximum stolen value
+function findMaxSum(arr) {
+    let n = arr.length;
+    
+    // Call the recursive function for n houses
+  	return findMaxSumRec(arr, n);
+}
+
+let arr = [6, 7, 1, 3, 8, 2, 4];
+console.log(findMaxSum(arr));
+
+//Expexted Optimized Iterative Approach
+function findMaxSum(arr) {
+    //Set the length of the array
+    let n = arr.length;
+
+    //If theres no houses, return 0, if theres only one house, return the value of that house
+    if (n === 0)
+        return 0;
+    if (n === 1)
+        return arr[0];
+
+    //Set previous 2 values
+    let secondLast = 0, last = arr[0];
+
+    //Compute current value using previous two values
+    //The final current value would be our result
+    let res;
+    for (let i = 1; i < n; i++) {
+        res = Math.max(arr[i] + secondLast, last);
+        secondLast = last;
+        last = res;
+    }
+    return res;
+}
+//Driver Code
+let arr = [6, 7, 1, 3, 8, 2, 4];
+console.log(findMaxSum(arr));
+
+//9. Monotonic Stack - "Next Greater Element"
+//This problem prompts you to find the next greater element for each element in an array
+//We can use a monotonic stack to solve this problem in O(n) time complexity
+//This problem basically asks to find how far is the current index from the index of next greater temperature to the temperature at the current index. The most optimal way to solve this problem is by making use of a stack. Below are the steps:
+
+//1. Iterate over the everyday temperature of the given array arr[] using the current index.
+//2. If the stack is empty, push the current index to the stack.
+//3. If the stack is not empty then do the following: 
+
+//If the temperature at the current index is lesser than the temperature of the index at top of the stack, push the current index.
+//If the temperature at the current index is greater than the temperature of the index at top of the stack, then update the no of days to wait for warmer temperature as:
+
+//current index – index at top of the stack
+
+//Pop the stack once the number of days has been updated in the output list.
+//4. Repeat the above steps for all the indices in the stack that are lesser than the temperature at the current index.
+
+function dailyTemperatures(T)
+{
+    var n = T.length;
+
+    //To store the answer
+    var daysOfWait = Array(n).fill(-1);
+    var s = [];
+
+    //Traverse all the temperatures
+    for (var i = 0; i < n; i++) {
+
+        //Check if current index is the next warmer temperature of any previous indexes
+        while (s.length!=0
+               && T[s[s.length-1]] < T[i]) {
+
+            daysOfWait[s[s.length-1]]
+                = i - s[s.length-1];
+
+            //Pop the element
+            s.pop();
+        }
+
+        //Push the current index
+        s.push(i);
+    }
+
+    //Print waiting days
+    for (var i = 0; i < n; i++) {
+        document.write( daysOfWait[i] + " ");
+    }
+}
+
+//Driver Code
+//Given temperatures
+var arr = [73, 74, 75, 71,
+        69, 72, 76, 73 ];
+dailyTemperatures(arr);// Output: 1 1 4 2 1 1 0 0
